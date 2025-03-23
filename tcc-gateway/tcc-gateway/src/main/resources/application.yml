@@ -1,0 +1,33 @@
+spring:
+ cloud:
+   gateway:
+     routes:
+       - id: tcc-app
+         uri: lb://TCC-APP
+         predicates:
+           - Path=/tcc/**
+         filters:
+           - AuthenticationFilter
+
+       - id: hrms-service
+         uri: lb://HRMS-SERVICE
+         predicates:
+           - Path=/hrms/**
+         filters:
+           - AuthenticationFilter
+
+       - id: auth-service
+         uri: lb://AUTH-SERVICE
+         predicates:
+           - Path=/auth/**
+
+ application:
+   name: TCC-GATEWAY
+
+eureka:
+  client:
+    service-url:
+      defaultZone : http://localhost:8761/eureka/
+
+server:
+  port: 9090
